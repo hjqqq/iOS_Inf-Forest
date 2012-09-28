@@ -66,7 +66,7 @@
 
 - (void)viewDidLoad
 {
-    
+    NSLog(@"THIS IS THE FIRST LINE OF CODE");
     [super viewDidLoad];
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Info_Forest_Main_BG.jpg"]];
@@ -145,7 +145,6 @@
 {
 
     return(interfaceOrientation == UIInterfaceOrientationLandscapeRight);
-    return NO;
 }
 
 @end
