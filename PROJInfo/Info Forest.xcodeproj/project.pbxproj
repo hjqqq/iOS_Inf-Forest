@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42C1589B161F64FC0077084B /* libNYXImagesKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C1589A161F64FC0077084B /* libNYXImagesKit.a */; };
 		42F7F742161F93860030CA8C /* gridDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F7F741161F93860030CA8C /* gridDisplay.m */; };
 		EFC2884515936995007406EC /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC2882A15936995007406EC /* CXMLDocument_CreationExtensions.m */; };
 		EFC2884615936995007406EC /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC2882C15936995007406EC /* CXMLNode_CreationExtensions.m */; };
@@ -102,7 +101,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		42C1589A161F64FC0077084B /* libNYXImagesKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libNYXImagesKit.a; path = "../../../Library/Developer/Xcode/DerivedData/NYXImagesKit-cmdfivjqmsjtuxecufpvxyshmmiq/Build/Products/Debug-iphoneos/libNYXImagesKit.a"; sourceTree = "<group>"; };
 		42F7F740161F93850030CA8C /* gridDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gridDisplay.h; sourceTree = "<group>"; };
 		42F7F741161F93860030CA8C /* gridDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gridDisplay.m; sourceTree = "<group>"; };
 		EFC2882915936995007406EC /* CXMLDocument_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_CreationExtensions.h; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 				F2A34F9E15A1D6340006CD31 /* NinevehGL.framework in Frameworks */,
 				F2A34FA015A1D65C0006CD31 /* OpenGLES.framework in Frameworks */,
 				F2A34FA215A1D69F0006CD31 /* QuartzCore.framework in Frameworks */,
-				42C1589B161F64FC0077084B /* libNYXImagesKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,7 +399,6 @@
 		F2BE7C0B158B91CE000707F4 = {
 			isa = PBXGroup;
 			children = (
-				42C1589A161F64FC0077084B /* libNYXImagesKit.a */,
 				F22D96FB1598F5C9004FD1D6 /* KissXML */,
 				EFC2882715936995007406EC /* TouchXML */,
 				F24BBED1159252B0004C6F0A /* AFNetworking-AFKissXMLRequestOperation-e5d8dff */,

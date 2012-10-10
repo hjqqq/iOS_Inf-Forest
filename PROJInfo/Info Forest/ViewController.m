@@ -81,9 +81,9 @@
      
     _buttonList = [[NSMutableArray alloc] init];
     
-    CGRect const screenSize =[[UIScreen mainScreen] bounds];
-    int const buttonWidth= (screenSize.size.width/3);
-    int const buttonHeight= (screenSize.size.height/25);
+//    CGRect const screenSize =[[UIScreen mainScreen] bounds];
+//    int const buttonWidth= (screenSize.size.width/3);
+//   int const buttonHeight= (screenSize.size.height/25);
     
     [self loadButtonsCode];
     

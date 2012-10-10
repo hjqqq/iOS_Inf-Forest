@@ -18,7 +18,7 @@
 
 @end
 
-@implementation ModleForImageViewer
+@implementation ModleForImageViewer;
 @synthesize cache = _cache;
 @synthesize currentUrl = _currentUrl;
 @synthesize currentUrn=_currentUrn;
@@ -124,7 +124,7 @@ return (@"sorry");
     return tmpString;
     
 }
-/*
+
 -(BOOL)bufferFoward
 {
     NSLog(@"Requesting the next page NOW");
@@ -134,7 +134,7 @@ return (@"sorry");
     _currentUrn.pageNumber--;
     return YES;
 }
-*/
+
 -(NSData*) nextData
 {
     _currentUrn.pageNumber++;
