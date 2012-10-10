@@ -37,6 +37,9 @@ typedef struct
 -(NSString*)setUrl;
 -(NSString*)helper; 
 
+-(BOOL)bufferFoward;
+-(NSData*)nextData;
+-(NSString*)nextURN;
 
 
 @end

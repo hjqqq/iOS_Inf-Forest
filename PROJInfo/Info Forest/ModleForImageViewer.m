@@ -29,7 +29,7 @@
 {
     if(self = [super init])
     {
-        _currentUrl.Base = @"http://amphoreus.hpcc.uh.edu/tomcat/chsimg/Img?&request=GetBinaryImage&urn=%@&w=3000";
+        _currentUrl.Base = @"http://amphoreus.hpcc.uh.edu/tomcat/chsimg/Img?&request=GetBinaryImage&urn=%@&w=600";
         
         _currentUrn.base=@"urn:cite:fufolioimg:";
         _currentUrn.type=@"ChadRGB.";
@@ -48,7 +48,7 @@
 
 -(UIImage*)startImage {
     _currentUrn.pageNumber = 001;
-    NSLog(@"Loaded Up Page 1");
+    //NSLog(@"Loaded Up Page 1");
     return [_cache cacheImage:[self helper] ];
 }
 
@@ -66,12 +66,12 @@ return (@"sorry");
 -(UIImage*)nextImage
 {
     _currentUrn.pageNumber++;
-    NSLog(@"NEXT");
+   // NSLog(@"NEXT");
     UIImage* currentpage=[_cache cacheImage:[self helper]];
     //caching the next image after that
-    _currentUrn.pageNumber++;
-    [_cache cacheImage:[self helper]];
-    _currentUrn.pageNumber--;
+ //   _currentUrn.pageNumber++;
+ //   [_cache cacheImage:[self helper]];
+ //   _currentUrn.pageNumber--;
     return currentpage;
 }
 
@@ -85,9 +85,9 @@ return (@"sorry");
     _currentUrn.pageNumber--;
     UIImage* currentpage=[_cache cacheImage:[self helper]];
     //caching the next image before that
-    _currentUrn.pageNumber--;
-    [_cache cacheImage:[self helper]];
-    _currentUrn.pageNumber++;
+//    _currentUrn.pageNumber--;
+//    [_cache cacheImage:[self helper]];
+//    _currentUrn.pageNumber++;
     return currentpage;
 }
 
@@ -96,13 +96,13 @@ return (@"sorry");
     _currentUrn.pageNumber=pageNum;
     UIImage* currentpage=[_cache cacheImage:[self helper]];
     //caching the images around it
-    _currentUrn.pageNumber++;
+/*    _currentUrn.pageNumber++;
     [_cache cacheImage:[self helper]];
     _currentUrn.pageNumber--;
     _currentUrn.pageNumber--;
     [_cache cacheImage:[self helper]];
     _currentUrn.pageNumber++;
-    return currentpage;
+*/    return currentpage;
 }
 
 
@@ -124,5 +124,29 @@ return (@"sorry");
     return tmpString;
     
 }
+/*
+-(BOOL)bufferFoward
+{
+    NSLog(@"Requesting the next page NOW");
+//caching the next image before that
+    _currentUrn.pageNumber++;
+    [_cache cacheImage:[self helper]];
+    _currentUrn.pageNumber--;
+    return YES;
+}
+*/
+-(NSData*) nextData
+{
+    _currentUrn.pageNumber++;
+    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString: [self helper]]];
+ 
+    return data;
+}
 
+-(NSString*) nextURN
+{
+     _currentUrn.pageNumber++;
+    return [self helper];
+
+}
 @end

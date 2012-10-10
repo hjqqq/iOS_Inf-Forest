@@ -49,16 +49,13 @@
     // Do any additional setup after loading the view from its nib.
     //Changeing the image, the view is already looking at this pointer
 
-    UISwipeGestureRecognizer *swipeRecognizer = 
-    [[UISwipeGestureRecognizer alloc]
-     initWithTarget:self action:@selector(perImage:)];
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(perImage:)];
     swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeRecognizer];
     
-    UISwipeGestureRecognizer *swiperecognizer2 = 
-    [[UISwipeGestureRecognizer alloc]
-     initWithTarget:self
-     action:@selector(nextImage:)];
+    UISwipeGestureRecognizer *swiperecognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(nextImage:)];
+    
     swiperecognizer2.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swiperecognizer2];
 }
@@ -77,7 +74,8 @@
 {
     _currentImage = [_modle nextImage]; //Changeing the image, the view is already looking at this pointer
     _currentView.image=_currentImage; //This should already be set
-
+    NSLog(@"hello");
+    [_modle bufferFoward];
 
 }
 

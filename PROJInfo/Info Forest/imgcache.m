@@ -15,7 +15,7 @@
 #import "Request.h"
 #define TMP NSTemporaryDirectory()
 
-#define CATCH_NUM 10 //jb how many items can be cached
+#define CATCH_NUM 20 //jb how many items can be cached
 
 @class Request;
 
@@ -25,6 +25,7 @@
 @synthesize broadbent = _broadbent;
 
 @synthesize images=_listofimages;
+
 
 
 -(id)init
@@ -41,9 +42,9 @@
 
 - (UIImage*) cacheImage: (NSString *) ImageURLString
 {   
-    
+
+/*
     //if there is more than 7 images, release some so it won't crash!
- 
     if(_count>7){
        for (int i=1; i<_count-1; i++)
     {
@@ -53,6 +54,13 @@
         _count--;
     }
     }
+  
+*/
+    if(_count > CATCH_NUM)
+        _count = 0;
+    
+    [_broadbent removeItemAtPath:[TMP stringByAppendingPathComponent:[_listofimages objectAtIndex:_count] ] error:NULL];
+    [_listofimages removeObjectAtIndex:_count];
     
     NSURL *ImageURL = [NSURL URLWithString: ImageURLString];
     
@@ -82,46 +90,28 @@
         
         
         // Fetch image
- //       NSData *data = [[NSData alloc] initWithContentsOfURL: ImageURL];
         NSData *data = [[NSData alloc] initWithContentsOfURL:ImageURL];//
    
-        /*NSURLResponse *test = [[NSURLResponse alloc ] initWithURL:ImageURL
-                                                         MIMEType:@"hello" 
-                                            expectedContentLength:-1 
-                                                 textEncodingName:nil];
-                               
-                      */  
+
         
         UIImage *image = [[UIImage alloc] initWithData: data];
                 
             
-        // Is it PNG or JPG/JPEG?
-        // Running the image representation function writes the data from the image to a file
-        //if([ImageURLString rangeOfString: @".png" options: NSCaseInsensitiveSearch].location != NSNotFound)
-        //{
-        //    [UIImagePNGRepresentation(image) writeToFile: uniquePath atomically: YES];
-        //    _count++;
-        //}
-        //else if(
-        //       [ImageURLString rangeOfString: @".jpg" options: NSCaseInsensitiveSearch].location != NSNotFound ||
-        //       [ImageURLString rangeOfString: @".jpeg" options: NSCaseInsensitiveSearch].location != NSNotFound
-        //       )
-        //{
         [UIImageJPEGRepresentation(image, 100) writeToFile: uniquePath atomically: YES];
             _count++;
-        //}
+       
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath: uniquePath]) 
-            NSLog(@"I saved the file and then was able to find it(first Time I have seen this guy)");
-        else
-            NSLog(@"I saved the file, but I can't find it. D'oh");
+       // if ([[NSFileManager defaultManager] fileExistsAtPath: uniquePath]) 
+          //  NSLog(@"I saved the file and then was able to find it(first Time I have seen this guy)");
+       // else
+          //  NSLog(@"I saved the file, but I can't find it. D'oh");
             
         
         
     }
     else  
     {
-        NSLog(@"I did not have to save the file(Loaded from cach)");
+       // NSLog(@"I did not have to save the file(Loaded from cach)");
     }
   
     

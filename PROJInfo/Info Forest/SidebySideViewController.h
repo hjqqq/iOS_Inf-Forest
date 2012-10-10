@@ -47,6 +47,9 @@
 @property (retain,nonatomic) IBOutlet UIBarButtonItem *_3D;
 @property (retain,nonatomic) UIPopoverController *popoverController;
 
+
+
+
 -(IBAction)nextImage:(UISwipeGestureRecognizer *)sender;
 -(IBAction)perImage:(UISwipeGestureRecognizer *)sender;
 -(IBAction)sliderValueChanged:(id)sender;

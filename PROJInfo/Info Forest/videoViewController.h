@@ -15,7 +15,13 @@
 @interface videoViewController : UIViewController
 {
     MPMoviePlayerController *movieController;
+    
 }
+@property(strong,nonatomic) UIWebView *videoView ;
 
--(void)embedYouTube:(NSString *)urlString frame:(CGRect)frame;
+
+
+
+
+-(id)embedYouTube:(NSString *)urlString frame:(CGRect)frame;
 @end

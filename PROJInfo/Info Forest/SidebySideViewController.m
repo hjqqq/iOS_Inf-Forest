@@ -17,6 +17,7 @@
 #import "AFXMLRequestOperation.h"
 #import "AboutViewController.h"
 #import "Translation.h"
+#import "gridDisplay.h"
 
 @class Request;
 
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) UIImageView *thisView;
 @property (strong, nonatomic) UIViewController *ViewInstance;
 
+//@property (strong, nonatomic) UIImageView *imageGrid;
+//@property (strong, nonatomic) NSMutableArray *displayGrid; 
 
 
 @end
@@ -44,6 +47,8 @@
 @synthesize _3D;
 @synthesize popoverController;
 
+//@synthesize imageGrid = _imageGrid;
+//@synthesize displayGrid = _displayGrid;
 
 
 //popup 3D viewer
@@ -96,9 +101,10 @@
 	}
     
     video =[[videoViewController alloc] init];
+    ;
     
 	self.popoverController = [[[UIPopoverController alloc]
-                               initWithContentViewController:video] autorelease];
+                               initWithContentViewController:[video embedYouTube:@"http://youtu.be/jpN-NziGOoM" frame:CGRectMake(0,0, 950,650)]] autorelease];
     
     popoverController.popoverContentSize = CGSizeMake(990, 740);
     
@@ -199,8 +205,13 @@
     _thisImage = [_model startImage];
     _thisView.image = _thisImage;
 
+    
+    
+
+    
     [[self view ] addSubview: _thisView];
     
+
     //xml on the left
    
     
@@ -250,7 +261,7 @@
     UISwipeGestureRecognizer *swiperecognizer2 = 
     [[UISwipeGestureRecognizer alloc]
      initWithTarget:self
-     action:@selector(nextImage:)];
+    action:@selector(nextImage:)];
     swiperecognizer2.direction = UISwipeGestureRecognizerDirectionLeft;
     [[self main] addGestureRecognizer:swiperecognizer2];
     
@@ -320,6 +331,8 @@
     [extraButton addTarget:self action:@selector(Video:) forControlEvents:UIControlEventTouchUpInside];
     [[self view] addSubview:extraButton];
     [self.view bringSubviewToFront:extraButton];
+    
+
 
 
 }
@@ -391,26 +404,73 @@
     int pagenum=[_model returnPage]+1;
     NSString* pagestring = [NSString stringWithFormat:@"%i", pagenum];
     NSLog(@"pagestring %@", pagestring);
-    NSString* xml=nil;
-    xml=[NSString stringWithFormat:xmlUrl,pagestring];
-    AFKissXMLRequestOperation* operation= [AFKissXMLRequestOperation XMLDocumentRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:xml]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, DDXMLDocument *XMLDocument) {
-        
-        NSString *xmlString=[XMLDocument XMLStringWithOptions:DDXMLNodePrettyPrint];
-        NSString* printString=[self parseString:xmlString];
-        myxml.text=printString;
-        
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, DDXMLDocument *XMLDocument) {
-        NSLog(@"Failure!");
-    }];
     
-    [operation start]; 
-    myxml.editable = NO;
+    
     
     _thisImage = [_model nextImage]; //Changeing the image, the view is already looking at this pointer
-    _thisView.image=_thisImage; //This should already be set
+    [_thisView setImage:_thisImage];
+    
     myTextField.text = [NSString stringWithFormat:@"%.0f", [_model returnPage]];
     mySlider.value=[_model returnPage];
     
+    
+    
+    //Hogan's XML
+    
+    //    NSString* xml=nil;
+    //  xml=[NSString stringWithFormat:xmlUrl,pagestring];
+    //    AFKissXMLRequestOperation* operation= [AFKissXMLRequestOperation XMLDocumentRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:xml]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, DDXMLDocument *XMLDocument) {
+        
+    //       NSString *xmlString=[XMLDocument XMLStringWithOptions:DDXMLNodePrettyPrint];
+    //       NSString* printString=[self parseString:xmlString];
+    //       myxml.text=printString;
+        
+    //       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, DDXMLDocument *XMLDocument) {
+    //       NSLog(@"Failure!");
+    //    }];
+    
+    //   [operation start]; 
+    //   myxml.editable = NO;
+    
+    
+    
+    //TEST Load from local File
+    /*
+    NSString *temp = [NSString stringWithFormat:@"%d",pagenum];
+    [_thisView setImage:[UIImage imageNamed:[@"@Chad-ExtraSmall-RGB-" appendString:*temp]]];
+    */
+    //Still working on this
+    
+    
+    //TEST Re order the catching set up. Display the next image, THEN load the next images
+    //[_thisView setNeedsDisplay];
+    //myTextField.text = [NSString stringWithFormat:@"%.0f", [_model returnPage]];
+    //myViewInstance
+    //[_thisView setNeedsDisplay];
+
+    //CGRect const screensize =[[UIScreen mainScreen] bounds];
+    
+    //gridDisplay *mygrid = [gridDisplay init:[_model nextURN] 
+     //                        :self 
+      //                       :(screensize.size.height)
+      //                       :(screensize.size.width)];
+    //Result I could not get this to happen. I will have to try this again
+    
+    
+    
+    
+    //TEST Lets load the image in to this class, and remove the class in the middle
+    //    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString: [_model nextURN]]];
+    //_thisImage = [UIImage imageWithData:[_model nextData]];
+    //    _thisImage = [UIImage imageWithData:data];
+    //    if(_thisImage) 
+    //    {
+    //        self.thisView.image = _thisImage;
+    //    }
+    //Result A tiny bit faster, but leads to bad organization
+    
+    
+
     
 }
 
@@ -419,7 +479,7 @@
     int pagenum=[_model returnPage]-1;
     NSString* pagestring = [NSString stringWithFormat:@"%i", pagenum];
     NSLog(@"pagestring %@", pagestring);
-    NSString* xml=nil;
+/*    NSString* xml=nil;
     xml=[NSString stringWithFormat:xmlUrl,pagestring];
     NSLog(@"xml string %@", xml);
     AFKissXMLRequestOperation* operation= [AFKissXMLRequestOperation XMLDocumentRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:xml]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, DDXMLDocument *XMLDocument) {
@@ -434,6 +494,7 @@
     
     [operation start]; 
     myxml.editable = NO;
+*/  
     
     _thisImage = [_model pervImage];
     _thisView.image = _thisImage;
