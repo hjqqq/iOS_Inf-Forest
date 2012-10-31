@@ -9,15 +9,17 @@
 #import <Foundation/Foundation.h>
 
 @interface ModleForImageViewer : NSObject
-typedef struct 
-{ NSString *Base;
+//typedef struct 
+//{ NSString *Base;
   
-}InfoForestUrl;
+//}InfoForestUrl;
 
 
 
 typedef struct
-{ NSString *base;
+{   NSString *machine;
+    NSString *base;
+    NSString *size;
     NSString *type;
     NSString *doc;
     NSString *crop;
@@ -31,6 +33,7 @@ typedef struct
 //-(void)setIfUrl:(NSString *)IfUrl;
 -(float)returnPage;
 -(UIImage*)nextImage;
+-(UIImage*)currentImage:(int)quality;
 -(UIImage*)pervImage;
 -(UIImage*)startImage;
 -(UIImage*)gotopage:(int)pageNum;
@@ -40,6 +43,7 @@ typedef struct
 -(BOOL)bufferFoward;
 -(NSData*)nextData;
 -(NSString*)nextURN;
+-(void)speedTest;
 
 
 @end

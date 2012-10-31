@@ -58,10 +58,11 @@
 }
 */
 - (id)embedYouTube:(NSString *)urlString frame:(CGRect)frame {
-    NSString *embedHTML = @"\
+/*    NSString *embedHTML = @"\
     <html><head>\
     <style type=\"text/css\">\
     body {\
+    <h1>Hello Bro</h1>\
     background-color: transparent;\
     color: white;\
     }\
@@ -71,10 +72,28 @@
     width=\"%0.0f\" height=\"%0.0f\"></embed>\
     </body></html>";
     NSString *html = [NSString stringWithFormat:embedHTML, urlString, frame.size.width, frame.size.height];
-    UIWebView *videoView = [[UIWebView alloc] initWithFrame:frame];
-    [videoView loadHTMLString:html baseURL:nil];
-    [self.view addSubview:videoView];
-    [videoView release];
+    */
+    
+    /*NSString *html = @"<html>\
+    <iframe width=\"950\" height=\"534\" src=\"http://www.youtube.com/embed/jpN-NziGOoM?rel=0\"\
+    frameborder=\"0\" allowfullscreen></iframe>\
+    </html>";
+    */
+    NSString *html = @"<html><head>    <style type=\"text/css\">     body {\
+        background-color: transparent;    color: white;    }    \
+    </style>    </head>\
+    <iframe width=\"500\" height=\"250\" src=\"http://www.youtube.com/embed/jpN-NziGOoM?rel=0\"\
+    frameborder=\"0\" allowfullscreen></iframe>\
+    </body></html>";
+
+    
+     _videoView = [[UIWebView alloc] initWithFrame:frame];
+    [_videoView setAllowsInlineMediaPlayback:YES];
+    [_videoView setMediaPlaybackRequiresUserAction:NO];
+    [_videoView loadHTMLString:html baseURL:nil];
+    [self.view addSubview:_videoView];
+   
+//    NSLog(html);
     return self;
 }
 
@@ -84,6 +103,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+     //[_videoView release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

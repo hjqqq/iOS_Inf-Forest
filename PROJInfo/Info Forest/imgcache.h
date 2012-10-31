@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSMutableArray *images;
 @property (strong, nonatomic) NSFileManager *broadbent;
 @property int count;
+@property (strong,nonatomic)UIImage *currentImage;
 
 -(id)init;
 - (UIImage*)cacheImage: (NSString *) ImageURLString;  

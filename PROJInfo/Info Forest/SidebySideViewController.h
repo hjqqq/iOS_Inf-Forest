@@ -60,5 +60,6 @@
 -(IBAction)home;
 -(IBAction)_about;
 
-
+//-(void)betterImage:(NSTimer*)timer;
+-(void)timerFireMethod:(NSTimer*)theTimer;
 @end

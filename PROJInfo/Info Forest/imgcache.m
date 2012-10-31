@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import "mach/mach.h" 
 
 
 
@@ -23,7 +24,7 @@
 @synthesize ListOfCachedUrls = _ListOfCachedUrls;
 @synthesize count = _count;
 @synthesize broadbent = _broadbent;
-
+@synthesize currentImage =_currentImage;
 @synthesize images=_listofimages;
 
 
@@ -56,6 +57,8 @@
     }
   
 */
+    
+    
     if(_count > CATCH_NUM)
         _count = 0;
     
@@ -92,8 +95,6 @@
         // Fetch image
         NSData *data = [[NSData alloc] initWithContentsOfURL:ImageURL];//
    
-
-        
         UIImage *image = [[UIImage alloc] initWithData: data];
                 
             
@@ -116,8 +117,48 @@
   
     
     
-return  ([[UIImage alloc] initWithContentsOfFile:uniquePath]);
+    [_currentImage release];
+    _currentImage =  ([[UIImage alloc] initWithContentsOfFile:uniquePath]);
+    
+  //  logMemUsage();
+    return _currentImage;
 }
 
-                                                    
+
+ 
+
+vm_size_t usedMemory(void) 
+{
+    struct task_basic_info info;
+    mach_msg_type_number_t size = sizeof(info);
+    kern_return_t kerr = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&info, &size);
+    return (kerr == KERN_SUCCESS) ? info.resident_size : 0; // size in bytes
+}
+
+vm_size_t freeMemory(void) 
+{
+    mach_port_t host_port = mach_host_self();
+    mach_msg_type_number_t host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
+    vm_size_t pagesize;
+    vm_statistics_data_t vm_stat;
+    
+    host_page_size(host_port, &pagesize);
+    (void) host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size);
+    return vm_stat.free_count * pagesize;
+}
+
+void logMemUsage(void) 
+{
+    // compute memory usage and log if different by >= 100k
+    static long prevMemUsage = 0;
+    long curMemUsage = usedMemory();
+    long memUsageDiff = curMemUsage - prevMemUsage;
+    
+    if (memUsageDiff > 100000 || memUsageDiff < -100000) {
+        prevMemUsage = curMemUsage;
+        NSLog(@"Memory used %7.1f (%+5.0f), free %7.1f kb", curMemUsage/1000.0f, memUsageDiff/1000.0f, freeMemory()/1000.0f);
+    }
+}
+
+
 @end

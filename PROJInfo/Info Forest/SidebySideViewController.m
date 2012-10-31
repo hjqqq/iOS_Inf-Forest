@@ -22,15 +22,12 @@
 @class Request;
 
 @interface SidebySideViewController ()
-
 @property (strong, nonatomic) ModleForImageViewer *model;
 @property (strong, nonatomic) UIImage * thisImage;
 @property (strong, nonatomic) UIImageView *thisView;
 @property (strong, nonatomic) UIViewController *ViewInstance;
 
-//@property (strong, nonatomic) UIImageView *imageGrid;
-//@property (strong, nonatomic) NSMutableArray *displayGrid; 
-
+@property (strong, nonatomic) NSTimer *time;
 
 @end
 
@@ -47,8 +44,8 @@
 @synthesize _3D;
 @synthesize popoverController;
 
-//@synthesize imageGrid = _imageGrid;
-//@synthesize displayGrid = _displayGrid;
+@synthesize time = _time;
+
 
 
 //popup 3D viewer
@@ -86,6 +83,8 @@
 	*/
     [self.popoverController presentPopoverFromRect:CGRectMake(315, 10, 20, 20) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     
+    [d release];
+    
 }
 
 
@@ -101,19 +100,19 @@
 	}
     
     video =[[videoViewController alloc] init];
-    ;
     
-	self.popoverController = [[[UIPopoverController alloc]
-                               initWithContentViewController:[video embedYouTube:@"http://youtu.be/jpN-NziGOoM" frame:CGRectMake(0,0, 950,650)]] autorelease];
+    
+	self.popoverController = [[UIPopoverController alloc]
+                               initWithContentViewController:[video embedYouTube:@"http://youtu.be/jpN-NziGOoM" frame:CGRectMake(0,0, 950,740)]] ;
     
     popoverController.popoverContentSize = CGSizeMake(990, 740);
     
-    /*[self.popoverController presentPopoverFromBarButtonItem:sender
-								   permittedArrowDirections:UIPopoverArrowDirectionUp
-												   animated:YES];
+ //   [self.popoverController presentPopoverFromBarButtonItem:sender
+//								   permittedArrowDirections:UIPopoverArrowDirectionUp
+//												   animated:YES];
 
-	*/
-    [self.popoverController presentPopoverFromRect:CGRectMake(700, 10, 20, 20) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+	
+    [self.popoverController presentPopoverFromRect:CGRectMake(700, 10, 20, 20) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];//
 }
 
 //popup translation viewer
@@ -121,8 +120,17 @@
     
     if([self.popoverController isPopoverVisible])
 	{
+        
+        
+        NSDate *date = [NSDate date];
+        
+        
+        
+        double time = [date timeIntervalSinceNow] * -1000;
+        NSLog(@"elaspsed time in milliseconds %f ");
+        
 		
-		[self.popoverController dismissPopoverAnimated:YES];
+		//[self.popoverController dismissPopoverAnimated:YES];
 		return;
 	}
     
@@ -193,6 +201,8 @@
 
 - (void)viewDidLoad
 {
+    
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -204,6 +214,7 @@
     _thisView.frame = CGRectMake(screensize.size.height/2,UInav.frame.size.height,screensize.size.height/2,screensize.size.width-(UIbar.frame.size.height*5/2)+3);
     _thisImage = [_model startImage];
     _thisView.image = _thisImage;
+    _time = [[NSTimer alloc ]init];
 
     
     
@@ -397,109 +408,77 @@
 
 -(IBAction)nextImage:(UISwipeGestureRecognizer *)sender
 {
+   
     //increase pagenumber in translation viewer
-    trans = [[Translation alloc] init];
-    [trans Increase];
+//    trans = [[Translation alloc] init];
+//    [trans Increase];
     //get current page number and put together the URL
-    int pagenum=[_model returnPage]+1;
-    NSString* pagestring = [NSString stringWithFormat:@"%i", pagenum];
-    NSLog(@"pagestring %@", pagestring);
+
+  //  int pagenum=[_model returnPage]+1;
+  //  NSString* pagestring = [NSString stringWithFormat:@"%i", pagenum];
+//    NSLog(@"pagestring %@", pagestring);screensize
+
     
+   
+    _thisImage = [_model nextImage]; //Changeing the image, the view is already looking 
     
-    
-    _thisImage = [_model nextImage]; //Changeing the image, the view is already looking at this pointer
-    [_thisView setImage:_thisImage];
     
     myTextField.text = [NSString stringWithFormat:@"%.0f", [_model returnPage]];
     mySlider.value=[_model returnPage];
     
-    
-    
-    //Hogan's XML
-    
-    //    NSString* xml=nil;
-    //  xml=[NSString stringWithFormat:xmlUrl,pagestring];
-    //    AFKissXMLRequestOperation* operation= [AFKissXMLRequestOperation XMLDocumentRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:xml]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, DDXMLDocument *XMLDocument) {
-        
-    //       NSString *xmlString=[XMLDocument XMLStringWithOptions:DDXMLNodePrettyPrint];
-    //       NSString* printString=[self parseString:xmlString];
-    //       myxml.text=printString;
-        
-    //       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, DDXMLDocument *XMLDocument) {
-    //       NSLog(@"Failure!");
-    //    }];
-    
-    //   [operation start]; 
-    //   myxml.editable = NO;
-    
-    
-    
-    //TEST Load from local File
-    /*
-    NSString *temp = [NSString stringWithFormat:@"%d",pagenum];
-    [_thisView setImage:[UIImage imageNamed:[@"@Chad-ExtraSmall-RGB-" appendString:*temp]]];
-    */
-    //Still working on this
-    
-    
-    //TEST Re order the catching set up. Display the next image, THEN load the next images
-    //[_thisView setNeedsDisplay];
-    //myTextField.text = [NSString stringWithFormat:@"%.0f", [_model returnPage]];
-    //myViewInstance
-    //[_thisView setNeedsDisplay];
+    UIImageView *tempView = [[UIImageView alloc] init];
+    CGRect const screensize =[[UIScreen mainScreen] bounds];
+    tempView.frame = CGRectMake(screensize.size.height/2,UInav.frame.size.height,screensize.size.height/2,screensize.size.width-(UIbar.frame.size.height*5/2)+3);
+    [tempView setImage:_thisImage];    
+    [UIView transitionFromView:_thisView
+                        toView:tempView
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionCurlUp
+                    completion:^(BOOL finished) {
+                        // animation completed
+                    }];
+    _thisView = tempView;
+    [tempView release];
 
-    //CGRect const screensize =[[UIScreen mainScreen] bounds];
     
-    //gridDisplay *mygrid = [gridDisplay init:[_model nextURN] 
-     //                        :self 
-      //                       :(screensize.size.height)
-      //                       :(screensize.size.width)];
-    //Result I could not get this to happen. I will have to try this again
-    
-    
-    
-    
-    //TEST Lets load the image in to this class, and remove the class in the middle
-    //    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString: [_model nextURN]]];
-    //_thisImage = [UIImage imageWithData:[_model nextData]];
-    //    _thisImage = [UIImage imageWithData:data];
-    //    if(_thisImage) 
-    //    {
-    //        self.thisView.image = _thisImage;
-    //    }
-    //Result A tiny bit faster, but leads to bad organization
-    
-    
+    SEL go = @selector(timerFireMethod:);
+    _time = [NSTimer scheduledTimerWithTimeInterval:.01 target:self selector:go userInfo:nil  repeats:NO];
 
+    //[_model speedTest];
+
+    
     
 }
 
 -(IBAction)perImage:(UISwipeGestureRecognizer *)sender
 {
-    int pagenum=[_model returnPage]-1;
-    NSString* pagestring = [NSString stringWithFormat:@"%i", pagenum];
-    NSLog(@"pagestring %@", pagestring);
-/*    NSString* xml=nil;
-    xml=[NSString stringWithFormat:xmlUrl,pagestring];
-    NSLog(@"xml string %@", xml);
-    AFKissXMLRequestOperation* operation= [AFKissXMLRequestOperation XMLDocumentRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:xml]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, DDXMLDocument *XMLDocument) {
-        
-        NSString *xmlString=[XMLDocument XMLStringWithOptions:DDXMLNodePrettyPrint];
-        NSString* printString=[self parseString:xmlString];
-        myxml.text=printString;
-        
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, DDXMLDocument *XMLDocument) {
-        NSLog(@"Failure!");
-    }];
     
-    [operation start]; 
-    myxml.editable = NO;
-*/  
     
     _thisImage = [_model pervImage];
-    _thisView.image = _thisImage;
+   // _thisView.image = _thisImage;
     myTextField.text = [NSString stringWithFormat:@"%.0f", [_model returnPage]];
     mySlider.value=[_model returnPage];
+    
+    
+    UIImageView *tempView = [[UIImageView alloc] init];
+    CGRect const screensize =[[UIScreen mainScreen] bounds];
+    tempView.frame = CGRectMake(screensize.size.height/2,UInav.frame.size.height,screensize.size.height/2,screensize.size.width-(UIbar.frame.size.height*5/2)+3);
+    [tempView setImage:_thisImage];    
+    [UIView transitionFromView:_thisView
+                        toView:tempView
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionCurlDown
+                    completion:^(BOOL finished) {
+                        // animation completed
+                    }];
+    _thisView = tempView;
+    [tempView release];
+    SEL go = @selector(timerFireMethod:);
+
+    _time = [NSTimer scheduledTimerWithTimeInterval:.01 target:self selector:go userInfo:nil  repeats:NO];
+    //[_time setFireDate:[NSDate date] ];
+    
+    
     
 }
 
@@ -536,6 +515,17 @@
     
     [self presentModalViewController:Chad animated:YES];
     
+}
+
+//-(void)betterImage:(NSTimer*)timer
+-(void)timerFireMethod:(NSTimer*)theTimer
+{
+   // [_thisImage release];
+    _thisImage = [_model currentImage:1000];
+    
+    _thisView.image = _thisImage;
+    //NSLog(@"timer went off");
+    return;
 }
 
 

@@ -116,7 +116,7 @@
 { 
     SidebySideViewController *goTo= [[SidebySideViewController alloc] initWithNibName:@"SidebySideViewController" bundle:nil];
     
-    goTo.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    goTo.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     NSLog(@"I am swiped!");
     
     [self presentModalViewController:goTo animated:YES];
@@ -150,7 +150,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return YES;
+ return(interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 @end

@@ -15,9 +15,9 @@
     UITextField *textField;
 }
 
-@property (retain,nonatomic) IBOutlet UIScrollView *scroll;
+//@property (retain,nonatomic) IBOutlet UIScrollView *scroll;
 @property (retain,nonatomic) IBOutlet UITextField *textField;
 
--(IBAction)_3Dgo;
+-(IBAction)aboutChad;
 @end
 
